@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend doit",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlnurbani97/doit.git"
+  },
+  "author": "Julen Urbani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jlnurbani97/doit/issues"
+  },
+  "homepage": "https://github.com/jlnurbani97/doit#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}
