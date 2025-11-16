@@ -1,6 +1,8 @@
-import { hello } from '../services/authService.js';
+const { hello } = require('../services/authService.js');
 
-export const sayHello = (req, res) => {
+const sayHello = (req, res) => {
   const message = hello();
   res.status(200).json({ message });
 };
+
+module.exports = { sayHello };
