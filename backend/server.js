@@ -1,14 +1,9 @@
-//Server config page
-
-import dotenv from 'dotenv';
-import authRoutes from './routes/authRoutes.js';
-import express from 'express';
-import cors from 'cors';
-
-dotenv.config();
+const express = require('express');
+const cors = require('cors');
+require('dotenv').config({ path: '../.env.backend' });
+const authRoutes = require('./routes/authRoutes.js');
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
