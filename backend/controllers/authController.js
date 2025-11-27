@@ -1,7 +1,7 @@
 const { registerUser, loginUser } = require('../services/authService.js');
 
 //Metodo per gestione richiesta registrazione
-const register = async (req, res) => {
+const register = async (req, res, next) => {
   try {
     const { username, firstName, secondName, password } = req.body;
     const user = await registerUser(username, firstName, secondName, password);
@@ -14,17 +14,13 @@ const register = async (req, res) => {
         secondName: user.secondName,
       },
     });
-    console.log('[REGISTRATION SUCCESSFUL]: ', user.username, user.id);
-  } catch (error) {
-    console.error(
-      `[REGISTRATION FAILED]: Message: ${error.message} Status: ${error.status}`
-    );
-    res.status(error.status || 500).json({ error: error.message });
+  } catch (err) {
+    next(err);
   }
 };
 
 //Metodo per gestione richiesta login
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = await loginUser(username, password);
@@ -37,12 +33,8 @@ const login = async (req, res) => {
         secondName: user.secondName,
       },
     });
-    console.log('[LOGIN SUCCESSFUL]: ', user.username, user.id);
-  } catch (error) {
-    console.error(
-      `[LOGIN FAILED]: Message: ${error.message} Status: ${error.status}`
-    );
-    res.status(401).json({ error: 'Credenziali non valide' });
+  } catch (err) {
+    next(err);
   }
 };
 
