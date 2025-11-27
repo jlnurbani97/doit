@@ -6,7 +6,8 @@ const {
   deleteTodo,
 } = require('../services/todoService');
 
-const create = async (req, res) => {
+//Metodo per la gestione della creazione Todo
+const create = async (req, res, next) => {
   try {
     const { title, description, startingDate, endingDate, userId, stateId } =
       req.body;
@@ -19,63 +20,53 @@ const create = async (req, res) => {
       stateId
     );
     res.status(201).json(todo);
-    console.log('[TODO CREATED]: ', todo.title, todo.id);
   } catch (err) {
-    console.error(err);
-    console.error(
-      `[TODO CREATION FAILED]: Message: ${error.message} Status: ${error.status}`
-    );
-    res.status(error.status || 500).json({ error: error.message });
+    next(err);
   }
 };
 
-//Da gestire meglio probabilmente
-const getAll = async (req, res) => {
+//Metodo per la gestione della restituzione dei Todo
+const getAll = async (req, res, next) => {
   try {
     const { userId } = req.params;
     const todos = await getTodos(userId);
     res.status(200).json(todos);
-    console.log('[TODOS RETURNED]: ', todos);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error fetching todos' });
+    next(err);
   }
 };
 
-const getOne = async (req, res) => {
+//Metodo per la gestione della restituzione di un Todo
+const getOne = async (req, res, next) => {
   try {
     const { userId, todoId } = req.params;
     const todo = await getTodoById(userId, todoId);
     res.status(200).json(todo);
-    console.log('[TODO RETURNED]: ', todo);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error fetching todo' });
+    next(err);
   }
 };
 
-const update = async (req, res) => {
+//Metodo per la gestione dell'aggiornamento di un Todo
+const update = async (req, res, next) => {
   try {
     const { userId, todoId } = req.params;
     const updated = await updateTodo(userId, todoId, req.body);
-    if (!updated)
-      return res.status(error.status || 404).json({ error: error.message });
     res.json(updated);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error updating todo' });
+    next(err);
   }
 };
 
-const remove = async (req, res) => {
+//Metodo per la gestione dellla cancellazione di un Todo
+const remove = async (req, res, next) => {
   try {
     const { userId, todoId } = req.params;
-    const deleted = await deleteTodo(userId, todoId);
-    if (!deleted) return res.status(404).json({ error: 'Todo not found' });
+    await deleteTodo(userId, todoId);
     res.json({ message: 'Todo deleted' });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error deleting todo' });
+    next(err);
   }
 };
+
 module.exports = { create, getAll, getOne, update, remove };
