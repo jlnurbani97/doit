@@ -1,13 +1,8 @@
 import './App.css';
+import AppRouter from './router/AppRouter';
 
 function App() {
-  return (
-    <>
-      <div>
-        <div className="bg-red-500 text-white p-4">Hello world!</div>
-      </div>
-    </>
-  );
+  return <AppRouter />;
 }
 
 export default App;
