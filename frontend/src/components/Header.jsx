@@ -18,7 +18,7 @@ export default function Header() {
         <Link to="#" className="hover:text-accent transition">
           Login
         </Link>
-        <Link to="#" className="hover:text-accent transition">
+        <Link to="/register" className="hover:text-accent transition">
           Register
         </Link>
       </nav>

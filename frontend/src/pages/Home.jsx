@@ -1,4 +1,3 @@
-import Header from '../components/Header';
 import FeatureCard from '../components/FeaturedCard';
 import logo from '../assets/logoSmall.png';
 import { Link } from 'react-router-dom';
@@ -6,9 +5,7 @@ import { Link } from 'react-router-dom';
 //Componente Home
 export default function Home() {
   return (
-    <div className="bg-light min-h-screen">
-      <Header />
-
+    <div className="bg-linear-to-br from-light to-accent min-h-screen">
       <section className="px-8 py-20 text-center">
         <div className="flex justify-center">
           <img src={logo} className="object-contain" />
@@ -23,7 +20,7 @@ export default function Home() {
 
         <Link
           to="/register"
-          className=" mt-5 inline-block bg-accent hover:opacity-90 transition hover:scale-105 text-white font-semibold py-3 px-6 rounded-xl"
+          className=" mt-5 inline-block bg-accent hover:bg-accent-str transition hover:scale-105 text-white font-semibold py-3 px-6 rounded-xl"
         >
           Inizia Ora
         </Link>
