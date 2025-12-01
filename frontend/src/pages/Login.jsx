@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from '../hooks/useAuth';
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [form, setForm] = useState({
     username: '',
@@ -39,7 +40,7 @@ export default function Login() {
         return;
       }
       //TODO da implementare salvataggio token, attualmente tutti in chiaro nello storage
-      localStorage.setItem('currentUser', JSON.stringify(data.user));
+      login(data.user);
 
       // Redirect alla dashboard
       navigate('/dashboard');
