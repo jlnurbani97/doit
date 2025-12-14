@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logoSmall.png';
 import { useAuth } from '../hooks/useAuth';
+import { useUI } from '../hooks/useUI';
 import {
   PlusIcon,
   ArrowLeftEndOnRectangleIcon,
@@ -11,6 +12,7 @@ export default function Header() {
   const navigate = useNavigate();
 
   const { user, isLoggedIn, logout } = useAuth();
+  const { openCreateModal } = useUI();
 
   const handleLogout = () => {
     logout();
@@ -18,9 +20,7 @@ export default function Header() {
   };
 
   const handleNewCard = () => {
-    // Da implemntare funzione creazione todo
-
-    alert("Funzione 'Crea Card' da implementare!");
+    openCreateModal();
   };
 
   const logoLinkTo = isLoggedIn ? '/dashboard' : '/';
