@@ -5,9 +5,9 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('States', [
-      { name: 'to do' },
-      { name: 'in progress' },
-      { name: 'done' },
+      { name: 'To do' },
+      { name: 'In progress' },
+      { name: 'Done' },
     ]);
   },
 
