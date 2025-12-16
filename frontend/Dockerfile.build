@@ -15,4 +15,4 @@ FROM alpine:latest
 WORKDIR /usr/share/app/frontendù
 
 #Prendo i file statici
-COPY --from=builder /app/build .
+COPY --from=builder /app/dist .
