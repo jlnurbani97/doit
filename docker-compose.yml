@@ -25,6 +25,15 @@ services:
     depends_on:
       - mysql
 
+# Frontend build 
+  frontend_builder:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.build 
+    container_name: doit-frontend-builder
+    volumes:
+      - frontend_build:/usr/share/app/frontend
 volumes:
   mysql_data:
+  frontend_build:
       
