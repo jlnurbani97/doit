@@ -3,6 +3,7 @@ import { useUI } from '../hooks/useUI';
 import { useAuth } from '../hooks/useAuth';
 import CreateTodoModal from '../components/CreateTodoModal';
 import DashboardColumn from '../components/DashBoardColumn';
+import ViewEditTodoModal from '../components/ViewEditTodoModal';
 
 export default function Dashboard() {
   const { isCreateModalOpen, closeCreateModal, openCreateModal } = useUI();
@@ -15,13 +16,34 @@ export default function Dashboard() {
   const [loadingTodos, setLoadingTodos] = useState(false);
   const [error, setError] = useState(null);
 
+  const [selectedTodo, setSelectedTodo] = useState(null);
+
+  const openViewModal = (todo) => {
+    setSelectedTodo(todo);
+  };
+
+  const closeViewModal = () => {
+    setSelectedTodo(null);
+  };
+
+  const handleFetchError = async (res) => {
+    let errorBody = {};
+    try {
+      errorBody = await res.json();
+    } catch (err) {
+      console.log(err);
+    }
+    return errorBody.error || `Errore HTTP ${res.status}`;
+  };
+
   // --- FETCH DEGLI STATI  ---
   useEffect(() => {
     const fetchStates = async () => {
       try {
         const res = await fetch('http://localhost:3000/api/states');
         if (!res.ok) {
-          throw new Error('Impossibile caricare gli stati della board.');
+          const errorMessage = await handleFetchError(res);
+          throw new Error(errorMessage);
         }
         const data = await res.json();
         setStates(data);
@@ -35,7 +57,7 @@ export default function Dashboard() {
     fetchStates();
   }, []);
 
-  // --- 2. FETCH DEI TODO ---
+  // --- FETCH DEI TODO ---
   useEffect(() => {
     if (!loadingStates && states.length > 0 && user && user.id) {
       setLoadingTodos(true);
@@ -44,7 +66,8 @@ export default function Dashboard() {
         try {
           const res = await fetch(`http://localhost:3000/api/todos/${user.id}`);
           if (!res.ok) {
-            throw new Error('Impossibile caricare le attività.');
+            const errorMessage = await handleFetchError(res);
+            throw new Error(errorMessage);
           }
           const data = await res.json();
           setTodos(data);
@@ -71,6 +94,22 @@ export default function Dashboard() {
     );
   }
 
+  const handleTodoUpdated = (updatedTodo) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) => (todo.id === updatedTodo.id ? updatedTodo : todo))
+    );
+    // Chiudi il modale dopo l'aggiornamento
+    setSelectedTodo(null);
+  };
+
+  const handleTodoDeleted = (deletedTodoId) => {
+    setTodos((prevTodos) =>
+      prevTodos.filter((todo) => todo.id !== deletedTodoId)
+    );
+    // Chiudi il modale dopo la cancellazione
+    setSelectedTodo(null);
+  };
+
   const isLoading = loadingStates || loadingTodos;
 
   //TODO: Da migliorare posizionameno
@@ -92,15 +131,19 @@ export default function Dashboard() {
           Caricamento Board e Attività...
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {/* ITERAZIONE SULLE COLONNE*/}
+        <div className="flex flex-wrap justify-center gap-6">
           {states.map((state) => (
-            <DashboardColumn
+            <div
               key={state.id}
-              title={state.name}
-              stateId={state.id}
-              allTodos={todos}
-            />
+              className="min-w-[300px] max-w-full md:min-w-[300px]"
+            >
+              <DashboardColumn
+                title={state.name}
+                stateId={state.id}
+                allTodos={todos}
+                onTodoClick={openViewModal}
+              />
+            </div>
           ))}
         </div>
       )}
@@ -109,6 +152,17 @@ export default function Dashboard() {
         isOpen={isCreateModalOpen}
         onClose={closeCreateModal}
         onTodoCreated={handleTodoCreated}
+      />
+
+      {/* Modale Visualizzazione e modifica*/}
+      <ViewEditTodoModal
+        isOpen={!!selectedTodo}
+        onClose={closeViewModal}
+        todo={selectedTodo}
+        onUpdate={handleTodoUpdated}
+        onDelete={handleTodoDeleted}
+        availableStates={states}
+        userId={user?.id}
       />
     </div>
   );

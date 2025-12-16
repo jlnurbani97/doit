@@ -27,7 +27,12 @@ const STATE_COLOR_MAP = {
   },
 };
 
-export default function DashboardColumn({ title, stateId, allTodos }) {
+export default function DashboardColumn({
+  title,
+  stateId,
+  allTodos,
+  onTodoClick,
+}) {
   const columnTodos = allTodos.filter((todo) => todo.stateId === stateId);
 
   const colors = STATE_COLOR_MAP[stateId] || {
@@ -68,11 +73,10 @@ export default function DashboardColumn({ title, stateId, allTodos }) {
           </p>
         ) : (
           columnTodos.map((todo) => (
-            // 💡 Usiamo il componente TodoCard
             <TodoCard
               key={todo.id}
               todo={todo}
-              // In futuro, qui potresti aggiungere props per il Drag and Drop
+              onClick={() => onTodoClick(todo)}
             />
           ))
         )}
