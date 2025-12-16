@@ -67,7 +67,7 @@ export default function Header() {
             </button>
           </div>
         ) : (
-          // --- Stato NON LOGGATO (Pagine Pubbliche) ---
+          // --- Stato NON LOGGATO ---
           <>
             <Link to="/" className="hover:text-accent transition ">
               Home

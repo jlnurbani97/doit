@@ -47,6 +47,13 @@ const getTodoById = async (userId, todoId) => {
 //Metodo per l'update di un Todo
 //Da gestire accesso non autorizzato (IDOR)? 403?
 const updateTodo = async (userId, todoId, fields) => {
+  if (typeof fields.title === 'string' && fields.title.trim() === '') {
+    const error = new ApiError(
+      "Il titolo dell'attività non può essere vuoto.",
+      400
+    );
+    throw error;
+  }
   const todo = await getTodoById(userId, todoId);
   return await todo.update(fields);
 };

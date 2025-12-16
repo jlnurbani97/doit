@@ -1,7 +1,7 @@
 import React from 'react';
 import { ClockIcon, CalendarIcon } from '@heroicons/react/24/outline';
 
-export default function TodoCard({ todo }) {
+export default function TodoCard({ todo, onClick }) {
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     try {
@@ -17,12 +17,16 @@ export default function TodoCard({ todo }) {
   const startingDate = formatDate(todo.startingDate);
   const endingDate = formatDate(todo.endingDate);
 
-  // Determina il colore di sfondo se la scadenza è vicina/passata (esempio)
-  const isOverdue = todo.endingDate && new Date(todo.endingDate) < new Date();
+  // Determina il colore di sfondo se la scadenza è vicina/passata
+  const isOverdue =
+    todo.endingDate &&
+    new Date(todo.endingDate) < new Date() &&
+    todo.stateId !== 3;
 
   return (
     <div
       key={todo.id}
+      onClick={onClick}
       className={`p-4 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out cursor-grab 
                   ${isOverdue ? 'border-red-400 bg-red-50' : ''}`}
     >
