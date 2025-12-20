@@ -33,6 +33,21 @@ services:
     container_name: doit-frontend-builder
     volumes:
       - frontend_build:/usr/share/app/frontend
+
+# nginx
+  nginx: 
+    image: nginx:alpine
+    container_name: doit-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      # Config
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - frontend_build:/usr/share/nginx/html:ro
+    depends_on:
+      - backend 
+      - frontend_builder 
 volumes:
   mysql_data:
   frontend_build:
