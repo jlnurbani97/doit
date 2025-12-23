@@ -12,7 +12,7 @@ echo "-- Backup_s3 starting... --"
 echo "Verifica esistenza log..."
 
 #Verifico esistenza del file di log
-if [ -f "$LOG_PATH" ]; then
+if [ ! -f "$LOG_PATH" ]; then
     echo "File di log inesistente!"
     exit 1
 fi
