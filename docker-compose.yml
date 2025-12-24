@@ -11,7 +11,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-# Backend 
+  # Backend 
   backend:
     build:
       context: .
@@ -27,19 +27,19 @@ services:
     depends_on:
       - mysql
 
-# Monitor
-log-monitor:
-  build:
-    context: ./monitor
-    dockerfile: Dockerfile.monitor
-  container_name: doit-monitor
-  restart: always
-  env_file:
-    - ./monitor/.env.monitor
-  volumes:
-    - ./backend/logs:/app/backend/logs:ro
-  depends_on:
-      - backend
+  # Monitor
+  log-monitor:
+    build:
+      context: ./monitor
+      dockerfile: Dockerfile.monitor
+    container_name: doit-monitor
+    restart: always
+    env_file:
+      - ./monitor/.env.monitor
+    volumes:
+      - ./backend/logs:/app/backend/logs:ro
+    depends_on:
+        - backend
 
 # Frontend build 
   frontend_builder:
