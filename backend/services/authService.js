@@ -1,6 +1,8 @@
 const { where } = require('sequelize');
 const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
+const jwt = require('jsonwebtoken');
+require('dotenv').config({ path: '../.env.backend' });
 
 //Metodo per la registrazione utente
 const registerUser = async (username, firstName, secondName, password) => {
@@ -26,9 +28,17 @@ const loginUser = async (username, password) => {
   const loggedUser = await User.findOne({ where: { username } });
 
   if (!loggedUser) throw new ApiError('Credenziali Errate', 404);
-  if (loggedUser.password !== password)
+
+  if (loggedUser.password !== password) {
     throw new ApiError('Credenziali Errate', 401);
-  return loggedUser;
+  }
+  const token = jwt.sign(
+    { userId: loggedUser.id, username: loggedUser.username },
+    process.env.JWT_SECRET,
+    { expiresIn: '24h' }
+  );
+
+  return { loggedUser, token };
 };
 
 module.exports = { registerUser, loginUser };

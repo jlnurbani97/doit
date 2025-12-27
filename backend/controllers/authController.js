@@ -37,16 +37,17 @@ const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
-    const user = await loginUser(username, password);
+    const { loggedUser, token } = await loginUser(username, password);
 
     logger.info({ message: `Login successful: ${username}`, ip: IP });
     res.status(200).json({
       message: 'Login successful',
+      token: token,
       user: {
-        id: user.id,
-        username: user.username,
-        firstName: user.firstName,
-        secondName: user.secondName,
+        id: loggedUser.id,
+        username: loggedUser.username,
+        firstName: loggedUser.firstName,
+        secondName: loggedUser.secondName,
       },
     });
   } catch (err) {

@@ -14,15 +14,19 @@ export const AuthProvider = ({ children }) => {
   const isLoggedIn = !!user;
 
   // Funzione per il Login
-  const login = (userData) => {
+  const login = (userData, token) => {
     // da modificare per token
     localStorage.setItem('currentUser', JSON.stringify(userData));
+    if (token) {
+      localStorage.setItem('token', token);
+    }
     setUser(userData);
   };
 
   // Funzione per il Logout
   const logout = () => {
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
     setUser(null);
   };
 
