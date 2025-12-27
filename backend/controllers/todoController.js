@@ -5,12 +5,13 @@ const {
   updateTodo,
   deleteTodo,
 } = require('../services/todoService');
+const auth = require('../middleware/auth');
 
 //Metodo per la gestione della creazione Todo
 const create = async (req, res, next) => {
   try {
-    const { title, description, startingDate, endingDate, userId, stateId } =
-      req.body;
+    const userId = req.userData.userId;
+    const { title, description, startingDate, endingDate, stateId } = req.body;
     const todo = await createTodo(
       title,
       description,
@@ -19,6 +20,7 @@ const create = async (req, res, next) => {
       userId,
       stateId
     );
+
     res.status(201).json(todo);
   } catch (err) {
     next(err);
@@ -28,7 +30,7 @@ const create = async (req, res, next) => {
 //Metodo per la gestione della restituzione dei Todo
 const getAll = async (req, res, next) => {
   try {
-    const { userId } = req.params;
+    const userId = req.userData.userId;
     const todos = await getTodos(userId);
     res.status(200).json(todos);
   } catch (err) {
@@ -39,7 +41,9 @@ const getAll = async (req, res, next) => {
 //Metodo per la gestione della restituzione di un Todo
 const getOne = async (req, res, next) => {
   try {
-    const { userId, todoId } = req.params;
+    const userId = req.userData.userId;
+    const { todoId } = req.params;
+
     const todo = await getTodoById(userId, todoId);
     res.status(200).json(todo);
   } catch (err) {
@@ -50,7 +54,9 @@ const getOne = async (req, res, next) => {
 //Metodo per la gestione dell'aggiornamento di un Todo
 const update = async (req, res, next) => {
   try {
-    const { userId, todoId } = req.params;
+    const userId = req.userData.userId;
+    const { todoId } = req.params;
+
     const updated = await updateTodo(userId, todoId, req.body);
     res.json(updated);
   } catch (err) {
@@ -61,7 +67,9 @@ const update = async (req, res, next) => {
 //Metodo per la gestione dellla cancellazione di un Todo
 const remove = async (req, res, next) => {
   try {
-    const { userId, todoId } = req.params;
+    const userId = req.userData.userId;
+    const { todoId } = req.params;
+
     await deleteTodo(userId, todoId);
     res.json({ message: 'Todo deleted' });
   } catch (err) {

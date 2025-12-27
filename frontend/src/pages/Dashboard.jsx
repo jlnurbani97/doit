@@ -59,12 +59,19 @@ export default function Dashboard() {
 
   // --- FETCH DEI TODO ---
   useEffect(() => {
-    if (!loadingStates && states.length > 0 && user && user.id) {
+    const token = localStorage.getItem('token');
+
+    if (!loadingStates && states.length > 0 && user && user.id && token) {
       setLoadingTodos(true);
 
       const fetchTodos = async () => {
+        const token = localStorage.getItem('token');
         try {
-          const res = await fetch(`http://localhost:3000/api/todos/${user.id}`);
+          const res = await fetch(`http://localhost:3000/api/todos/`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           if (!res.ok) {
             const errorMessage = await handleFetchError(res);
             throw new Error(errorMessage);

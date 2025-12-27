@@ -52,10 +52,15 @@ export default function CreateTodoModal({ isOpen, onClose, onTodoCreated }) {
     if (payload.startingDate === '') payload.startingDate = null;
     if (payload.endingDate === '') payload.endingDate = null;
 
+    const token = localStorage.getItem('token');
+
     try {
       const res = await fetch('http://localhost:3000/api/todos', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(payload),
       });
 
@@ -94,22 +99,22 @@ export default function CreateTodoModal({ isOpen, onClose, onTodoCreated }) {
   };
 
   return (
-    // 💡 Sfondo Modal
+    //Sfondo Modal
     <div
       className="fixed inset-0 z-50 bg-gray-400/40 flex justify-center items-center p-4"
       onClick={handleClose}
     >
-      {/* 💡 Contenitore Modale*/}
+      {/*Contenitore Modale*/}
       <div
         className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* 💡 Intestazione */}
+        {/*Intestazione */}
         <div className="p-5 border-b flex justify-between items-center bg-gray-50 rounded-t-xl">
           <h2 className="text-xl font-extrabold text-gray-900">
             Crea Nuova Attività
           </h2>
-          {/* 💡 Bottone di chiusura*/}
+          {/*Bottone di chiusura*/}
           <button
             onClick={handleClose}
             className="p-2 text-gray-600 hover:bg-gray-200 rounded-lg transition"
@@ -121,14 +126,14 @@ export default function CreateTodoModal({ isOpen, onClose, onTodoCreated }) {
 
         {/* Corpo del Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto">
-          {/* 💡 Error Message*/}
+          {/*Error Message*/}
           {error && (
             <div className="text-red-600 bg-red-50 p-3 rounded-lg border border-red-200 text-sm font-medium text-center">
               {error}
             </div>
           )}
 
-          {/* 💡 Sezione Titolo/Descrizione*/}
+          {/*Sezione Titolo/Descrizione*/}
           <div className="space-y-4">
             <div>
               <label
@@ -172,7 +177,7 @@ export default function CreateTodoModal({ isOpen, onClose, onTodoCreated }) {
             </div>
           </div>
 
-          {/* 💡 Sezione Dati Temporali */}
+          {/*Sezione Dati Temporali */}
           <div className="grid grid-cols-2 gap-4 pt-4 border-t">
             {['startingDate', 'endingDate'].map((field) => (
               <div key={field}>
@@ -198,7 +203,7 @@ export default function CreateTodoModal({ isOpen, onClose, onTodoCreated }) {
             ))}
           </div>
 
-          {/* 💡 Pulsante Submit*/}
+          {/*Pulsante Submit*/}
           <div className="pt-6 border-t flex justify-end">
             <button
               type="submit"

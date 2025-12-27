@@ -39,8 +39,9 @@ export default function Login() {
         setLoading(false);
         return;
       }
-      //TODO da implementare salvataggio token, attualmente tutti in chiaro nello storage
-      login(data.user);
+      login(data.user, data.token);
+      console.log('LOGIN TOKEN:', data.token);
+      console.log('LOGIN USER:', data.user);
 
       // Redirect alla dashboard
       navigate('/dashboard');

@@ -53,20 +53,21 @@ export default function ViewEditTodoModal({
   };
 
   const handleUpdate = async () => {
+    const token = localStorage.getItem('token');
     try {
       const dataToSend = {
         ...formData,
         stateId: parseInt(formData.stateId, 10),
       };
 
-      const res = await fetch(
-        `http://localhost:3000/api/todos/${userId}/${todo.id}`,
-        {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(dataToSend),
-        }
-      );
+      const res = await fetch(`http://localhost:3000/api/todos/${todo.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(dataToSend),
+      });
 
       if (!res.ok) {
         const errorMessage = await handleFetchError(res);
@@ -86,12 +87,11 @@ export default function ViewEditTodoModal({
       return;
 
     try {
-      const res = await fetch(
-        `http://localhost:3000/api/todos/${userId}/${todo.id}`,
-        {
-          method: 'DELETE',
-        }
-      );
+      const token = localStorage.getItem('token');
+      const res = await fetch(`http://localhost:3000/api/todos/${todo.id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (!res.ok) {
         const errorMessage = await handleFetchError(res);
@@ -173,7 +173,7 @@ export default function ViewEditTodoModal({
                 name="stateId"
                 value={formData.stateId || ''}
                 onChange={handleChange}
-                className="border border-gray-300 rounded-md p-2 flex-grow"
+                className="border border-gray-300 rounded-md p-2 grow"
               >
                 {availableStates.map((state) => (
                   <option key={state.id} value={state.id}>
