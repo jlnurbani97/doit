@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       title: {
         type: DataTypes.STRING,
-        unique: true,
+        unique: false,
         allowNull: false,
       },
       description: {
@@ -49,6 +49,12 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'Todo',
       timestamps: true,
+      indexes: [
+        {
+          unique: true,
+          fields: ['title', 'userId'],
+        },
+      ],
     }
   );
   return Todo;
