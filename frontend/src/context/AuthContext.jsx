@@ -15,7 +15,6 @@ export const AuthProvider = ({ children }) => {
 
   // Funzione per il Login
   const login = (userData, token) => {
-    // da modificare per token
     localStorage.setItem('currentUser', JSON.stringify(userData));
     if (token) {
       localStorage.setItem('token', token);

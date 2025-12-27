@@ -37,6 +37,17 @@ const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
+    /*const loggedUser = await loginUserUnsafe(username, password);
+    res.status(200).json({
+      message: 'Login successful',
+      user: {
+        id: loggedUser.id,
+        username: loggedUser.username,
+        firstName: loggedUser.firstName,
+        secondName: loggedUser.secondName,
+      },
+    });*/
+
     const { loggedUser, token } = await loginUser(username, password);
 
     logger.info({ message: `Login successful: ${username}`, ip: IP });
