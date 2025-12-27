@@ -11,7 +11,7 @@ module.exports = {
       },
       title: {
         type: Sequelize.STRING,
-        unique: true,
+        unique: false,
         allowNull: false,
       },
       description: {
@@ -55,6 +55,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+    });
+    await queryInterface.addIndex('Todos', ['title', 'userId'], {
+      unique: true,
+      name: 'unique_title_per_user',
     });
   },
   async down(queryInterface, Sequelize) {
