@@ -5,6 +5,7 @@ module.exports = (req, res, next) => {
   try {
     //Prendo la parte valida del token (non Bearer)
     const token = req.headers.authorization.split(' ')[1];
+    //Verifica validità token
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     req.userData = { userId: decodedToken.userId };
     next();

@@ -1,11 +1,21 @@
 const { registerUser, loginUser } = require('../services/authService.js');
 const logger = require('../utils/Logger.js');
 
+const getIP = (req) => {
+  return (
+    req.headers['x-forwarded-for'] ||
+    req.socket?.remoteAddress ||
+    'IP_NOT_FOUND'
+  );
+};
+
 //Metodo per gestione richiesta registrazione
 const register = async (req, res, next) => {
+  const IP = getIP(req);
   try {
     const { username, firstName, secondName, password } = req.body;
     const user = await registerUser(username, firstName, secondName, password);
+    logger.info({ message: `Registration successful: ${username}`, ip: IP });
     res.status(201).json({
       message: 'User registered',
       user: {
@@ -23,12 +33,7 @@ const register = async (req, res, next) => {
 //Metodo per gestione richiesta login
 const login = async (req, res, next) => {
   //TODO: Da riprovare con client non su localhost
-  const IP =
-    req.headers['x-forwarded-for'] ||
-    req.connection?.remoteAddress ||
-    req.socket?.remoteAddress ||
-    req.connection?.socket?.remoteAddress ||
-    'IP_NOT_FOUND';
+  const IP = getIP(req);
 
   //Temp degug log
   console.log('Debug IP headers:', req.headers['x-forwarded-for']);

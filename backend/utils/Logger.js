@@ -12,10 +12,11 @@ if (!fs.existsSync(logDir)) {
 
 // File log
 const logFile = path.join(logDir, 'security.log');
-console.log('LOGGER FILE PATH:', logFile); // DEBUG
+console.log('LOGGER FILE PATH:', logFile);
 
 const logger = winston.createLogger({
-  level: 'info', // livello minimo del logger
+  level: 'info',
+  //Formato
   format: winston.format.combine(
     winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     winston.format.printf(({ timestamp, level, message, ip }) => {
@@ -26,6 +27,7 @@ const logger = winston.createLogger({
   ),
   transports: [
     new winston.transports.Console(),
+    //Salvataggio su file
     new winston.transports.File({
       filename: logFile,
       level: 'info', // scrive info, warn e error

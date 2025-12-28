@@ -1,5 +1,6 @@
 const ApiError = require('../utils/ApiError');
 
+//Middleware per gestione migliore errori
 const errorHandler = (err, req, res, next) => {
   console.error('[ERROR]:', err);
 
@@ -8,6 +9,7 @@ const errorHandler = (err, req, res, next) => {
       error: err.message,
     });
   }
+  //Comportamento di default
   return res.status(500).json({
     error: 'Errore interno al server',
   });

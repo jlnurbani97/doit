@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
         as: 'user',
       });
-      ////Associazione uno a uno, il Todo è associato ad un solo State
+      //Associazione uno a uno, il Todo è associato ad un solo State
       Todo.belongsTo(models.State, {
         foreignKey: 'stateId',
         as: 'state',
