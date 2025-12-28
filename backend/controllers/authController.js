@@ -32,13 +32,7 @@ const register = async (req, res, next) => {
 
 //Metodo per gestione richiesta login
 const login = async (req, res, next) => {
-  //TODO: Da riprovare con client non su localhost
   const IP = getIP(req);
-
-  //Temp degug log
-  console.log('Debug IP headers:', req.headers['x-forwarded-for']);
-  console.log('Debug IP socket:', req.socket?.remoteAddress);
-  console.log('IP finale assegnato:', IP);
   try {
     const { username, password } = req.body;
 
