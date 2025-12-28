@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 //Componente Home
 export default function Home() {
   return (
-    <div className="bg-linear-to-br from-light to-accent min-h-screen">
+    <div className="bg-linear-to-br from-accent to-light min-h-dvh ">
       <section className="px-8 py-20 text-center">
         <div className="flex justify-center">
           <img src={logo} className="object-contain" />

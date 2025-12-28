@@ -20,14 +20,13 @@ export default function Registration() {
       [e.target.name]: e.target.value,
     });
   };
-
+  //Post Register
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-
     try {
-      const res = await fetch('http://localhost:3000/api/auth/register', {
+      const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -53,8 +52,8 @@ export default function Registration() {
 
   return (
     <div
-      className="flex justify-center items-center h-screen 
-                    bg-linear-to-br from-light to-accent"
+      className="flex justify-center items-center min-h-dvh
+                    bg-linear-to-br from-accent to-light"
     >
       {/* Form inserimento dati registrazione */}
       <form
