@@ -5,10 +5,19 @@ const {
   updateTodo,
   deleteTodo,
 } = require('../services/todoService');
-const auth = require('../middleware/auth');
+const logger = require('../utils/Logger.js');
+
+const getIP = (req) => {
+  return (
+    req.headers['x-forwarded-for'] ||
+    req.socket?.remoteAddress ||
+    'IP_NOT_FOUND'
+  );
+};
 
 //Metodo per la gestione della creazione Todo
 const create = async (req, res, next) => {
+  const IP = getIP(req);
   try {
     const userId = req.userData.userId;
     const { title, description, startingDate, endingDate, stateId } = req.body;
@@ -20,7 +29,10 @@ const create = async (req, res, next) => {
       userId,
       stateId
     );
-
+    logger.info({
+      message: `Todo creato: "${title}" | UserID: ${userId}`,
+      ip: IP,
+    });
     res.status(201).json(todo);
   } catch (err) {
     next(err);
@@ -53,11 +65,16 @@ const getOne = async (req, res, next) => {
 
 //Metodo per la gestione dell'aggiornamento di un Todo
 const update = async (req, res, next) => {
+  const IP = getIP(req);
   try {
     const userId = req.userData.userId;
     const { todoId } = req.params;
 
     const updated = await updateTodo(userId, todoId, req.body);
+    logger.info({
+      message: `Todo aggiornato: ID ${todoId} | UserID: ${userId}`,
+      ip: IP,
+    });
     res.json(updated);
   } catch (err) {
     next(err);
@@ -66,12 +83,16 @@ const update = async (req, res, next) => {
 
 //Metodo per la gestione dellla cancellazione di un Todo
 const remove = async (req, res, next) => {
+  const IP = getIP(req);
   try {
     const userId = req.userData.userId;
     const { todoId } = req.params;
-
     await deleteTodo(userId, todoId);
-    res.json({ message: 'Todo deleted' });
+    logger.warn({
+      message: `Todo eliminato: ID ${todoId} | UserID: ${userId}`,
+      ip: IP,
+    });
+    res.json({ message: 'Todo Cancellato' });
   } catch (err) {
     next(err);
   }

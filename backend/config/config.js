@@ -1,5 +1,6 @@
 require('dotenv').config({ path: './.env.backend' });
 
+//Configurazione .env dev
 module.exports = {
   development: {
     username: process.env.DB_USER,
@@ -9,4 +10,5 @@ module.exports = {
     port: process.env.DB_PORT,
     dialect: 'mysql',
   },
+  //TODO: Configurazione .env Prod
 };
