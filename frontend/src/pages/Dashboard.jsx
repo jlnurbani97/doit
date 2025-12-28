@@ -36,11 +36,11 @@ export default function Dashboard() {
     return errorBody.error || `Errore HTTP ${res.status}`;
   };
 
-  // --- FETCH DEGLI STATI  ---
+  // Get stati
   useEffect(() => {
     const fetchStates = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/states');
+        const res = await fetch('/api/states');
         if (!res.ok) {
           const errorMessage = await handleFetchError(res);
           throw new Error(errorMessage);
@@ -57,7 +57,7 @@ export default function Dashboard() {
     fetchStates();
   }, []);
 
-  // --- FETCH DEI TODO ---
+  // Get todo
   useEffect(() => {
     const token = localStorage.getItem('token');
 
@@ -67,7 +67,7 @@ export default function Dashboard() {
       const fetchTodos = async () => {
         const token = localStorage.getItem('token');
         try {
-          const res = await fetch(`http://localhost:3000/api/todos/`, {
+          const res = await fetch(`/api/todos/`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -89,7 +89,7 @@ export default function Dashboard() {
     }
   }, [loadingStates, states.length, user]);
 
-  // ---CREAZIONE DI NUOVI TODO ---
+  // Creazione todo
   const handleTodoCreated = (newTodo) => {
     const todoToDisplay = newTodo.todo || newTodo;
     setTodos((prevTodos) => [todoToDisplay, ...prevTodos]);
@@ -119,14 +119,13 @@ export default function Dashboard() {
 
   const isLoading = loadingStates || loadingTodos;
 
-  //TODO: Da migliorare posizionameno
   return (
-    <div className=" p-8">
+    <div className=" p-8 bg-linear-to-br from-accent to-light  min-h-dvh">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl font-bold text-gray-800">La tua Dashboard</h1>
         <button
           onClick={openCreateModal}
-          className="bg-accent text-white py-2 px-4 rounded-lg shadow-md hover:bg-primary transition disabled:opacity-50"
+          className="bg-accent text-white py-2 px-4 rounded-lg shadow-md hover:bg-accent-str transition disabled:opacity-50"
           disabled={isLoading || states.length === 0}
         >
           + Aggiungi Attività

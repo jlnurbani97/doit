@@ -50,7 +50,7 @@ export default function Header() {
             {/* Pulsante Crea Card [+] */}
             <button
               onClick={handleNewCard}
-              className="p-2 bg-accent text-white rounded-full shadow-lg hover:bg-primary transition transform hover:scale-105"
+              className="p-2 bg-accent text-white rounded-full shadow-lg hover:bg-accent-str transition transform hover:scale-105"
               aria-label="Crea nuova card"
             >
               <PlusIcon className="w-6 h-6" />

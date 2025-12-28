@@ -1,4 +1,4 @@
-// src/components/CreateTodoModal.jsx
+// CreateTodoModal
 import { useState } from 'react';
 import {
   XMarkIcon,
@@ -53,9 +53,9 @@ export default function CreateTodoModal({ isOpen, onClose, onTodoCreated }) {
     if (payload.endingDate === '') payload.endingDate = null;
 
     const token = localStorage.getItem('token');
-
+    //Post Todo
     try {
-      const res = await fetch('http://localhost:3000/api/todos', {
+      const res = await fetch('/api/todos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

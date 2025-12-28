@@ -20,13 +20,13 @@ export default function Login() {
     });
   };
 
+  //Post login
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-
     try {
-      const res = await fetch('http://localhost:3000/api/auth/login', {
+      const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -55,8 +55,8 @@ export default function Login() {
 
   return (
     <div
-      className="flex justify-center items-center h-screen 
-                 bg-linear-to-br from-light to-accent"
+      className="flex justify-center items-center min-h-dvh 
+                 bg-linear-to-br from-accent to-light"
     >
       <form
         onSubmit={handleSubmit}

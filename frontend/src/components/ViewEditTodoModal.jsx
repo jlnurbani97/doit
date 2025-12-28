@@ -51,7 +51,7 @@ export default function ViewEditTodoModal({
     }
     return errorBody.error || `Errore HTTP ${res.status}`;
   };
-
+  //Update todo
   const handleUpdate = async () => {
     const token = localStorage.getItem('token');
     try {
@@ -60,7 +60,7 @@ export default function ViewEditTodoModal({
         stateId: parseInt(formData.stateId, 10),
       };
 
-      const res = await fetch(`http://localhost:3000/api/todos/${todo.id}`, {
+      const res = await fetch(`/api/todos/${todo.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -81,14 +81,14 @@ export default function ViewEditTodoModal({
       console.error(error);
     }
   };
-
+  //Delete todo
   const handleDelete = async () => {
     if (!window.confirm('Sei sicuro di voler eliminare questa attività?'))
       return;
 
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:3000/api/todos/${todo.id}`, {
+      const res = await fetch(`/api/todos/${todo.id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -112,7 +112,7 @@ export default function ViewEditTodoModal({
 
   // Trova il nome dello stato attuale per la visualizzazione
   const currentState = availableStates.find((s) => s.id === todo.stateId);
-  // --- Struttura del Modale (Semplice) ---
+  //truttura del Modale
   return (
     <div className="fixed inset-0 z-50 bg-gray-400/40 flex justify-center items-center p-4">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
@@ -136,7 +136,7 @@ export default function ViewEditTodoModal({
               onClick={() => (isEditing ? handleUpdate() : setIsEditing(true))}
               className={`p-2 rounded-lg transition ${
                 isEditing
-                  ? 'bg-green-600 text-white hover:bg-green-700'
+                  ? 'bg-primary text-white hover:bg-accent'
                   : 'bg-primary text-white hover:bg-accent'
               }`}
               title={isEditing ? 'Salva Modifiche' : 'Modifica Attività'}
