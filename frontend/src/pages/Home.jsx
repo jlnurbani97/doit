@@ -15,7 +15,7 @@ export default function Home() {
         </h1>
 
         <p className="text-dark mt-4 text-lg max-w-2xl mx-auto">
-          Un'applicazione semplice ed elegante per la gestione delle attività.
+          Un'applicazione semplice e funzionale per la gestione delle attività.
         </p>
 
         <Link
