@@ -1,8 +1,6 @@
 #!/bin/bash
 #Variabili
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-LOG_PATH="$PROJECT_ROOT/backend/logs/security.log"
+LOG_PATH="/var/log/doit/security.log"
 DATE=$(date +%Y-%m-%d_%H%M%S)
 ARCHIVE="security_log_backup_$DATE.tar.gz"
 BUCKET="doit-cyber-2025"
@@ -34,5 +32,3 @@ echo "File $ARCHIVE rimosso localmente."
 
 echo "-- Backup_s3 closing... --"
 echo "----------------------------------------------------------"
-
-
